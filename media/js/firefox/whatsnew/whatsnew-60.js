@@ -21,20 +21,12 @@ This iteration of /whatsnew has multiple states:
     Display App/Play store badges for Focus
 */
 
-(function (Mozilla) {
+(function(Mozilla) {
     'use strict';
 
     var client = Mozilla.Client;
     var sendTo = document.getElementById('send-to-device');
-    var uiTourTimeout = setTimeout(skipUiTour, 1500); // fallback if UITour should fail
     var mainContent = document.querySelector('.main-content');
-
-    var uiTourSkipped = false;
-
-    function skipUiTour() {
-        uiTourSkipped = true;
-        showFxa();
-    }
 
     function showFxa() {
         mainContent.classList.add('show-fxa');
@@ -81,26 +73,16 @@ This iteration of /whatsnew has multiple states:
         });
     }
 
-    Mozilla.UITour.getConfiguration('sync', function(config) {
-        // if timeout has already fired, do nothing - FxA state will be displayed
-        if (uiTourSkipped) {
-            return;
-        }
-
-        // clear UITour fallback timeout.
-        clearTimeout(uiTourTimeout);
-
-        // user is not signed in to sync
-        if (!config.setup) {
+    client.getSyncDetails(function(details) {
+        // if user is not signed in to sync, show the FxA form
+        if (!details.setup) {
             showFxa();
+        // if the user is signed in to Sync but doesn't have any mobile devices set up, show Fx mobile content
+        } else if (details.mobileDevices === 0) {
+            showFirefoxMobile();
+        // if user is signed in to Sync and has mobile devices set up, show Focus content
         } else {
-            // user has at least one mobile device sync'd - show Focus content
-            if (config.mobileDevices >= 1) {
-                showFocus();
-            // user has no mobile devices sync'd - show Firefox mobile content
-            } else {
-                showFirefoxMobile();
-            }
+            showFocus();
         }
     });
 })(window.Mozilla);

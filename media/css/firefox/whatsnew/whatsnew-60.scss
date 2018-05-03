@@ -32,7 +32,8 @@ h1, h2, h3, h4, h5, h6 {
         left: 0;
         position: absolute;
         top: 0;
-        transition: all 0.15s ease-in-out 0.4s;
+        transition: opacity 0.15s ease-in-out 0.4s, transform 0.15s ease-in-out 0.4s;
+        visibility: hidden;
 
         &.hiding {
             opacity: 0;
@@ -52,8 +53,18 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-.no-js .logo-wrapper img.hiding {
-    display: none;
+.show-fxa .logo-wrapper img,
+.show-fx-mobile .logo-wrapper img,
+.show-focus .logo-wrapper img {
+    visibility: visible;
+}
+
+.no-js .logo-wrapper img {
+    visibility: visible;
+
+    &.hiding {
+        display: none;
+    }
 }
 
 //* -------------------------------------------------------------------------- */
@@ -69,6 +80,7 @@ h1, h2, h3, h4, h5, h6 {
     @media #{$mq-tablet} {
         background: url('/media/img/firefox/whatsnew/fox-tail.png') top center no-repeat,
                     linear-gradient(87deg, #6A11CB 0%, #2575FC 100%);
+        min-height: 500px; // mitigate page height jump when conditional content is displayed
         padding: 60px 0;
         text-align: left;
 
@@ -148,42 +160,6 @@ html[dir="rtl"] .content-header {
 }
 
 /* -------------------------------------------------------------------------- */
-// No-JS fallback content
-
-// if no-js, default to showing Firefox Mobile
-.no-js {
-    .content-container {
-        @media #{$mq-tablet} {
-            width: 600px;
-        }
-    }
-
-    .fx-mobile-container {
-        display: block;
-
-        @media #{$mq-phone-wide} {
-            .mobile-download-buttons {
-                display: flex;
-                justify-content: space-around;
-                margin: 0 auto;
-                width: 400px;
-            }
-        }
-
-        @media #{$mq-tablet} {
-            .mobile-download-buttons {
-                justify-content: flex-start;
-                margin: 0;
-
-                li {
-                    width: 200px;
-                }
-            }
-        }
-    }
-}
-
-/* -------------------------------------------------------------------------- */
 // Firefox accounts
 
 #fxa-ifram-config {
@@ -249,8 +225,10 @@ html[dir="rtl"] .content-header {
 // Firefox mobile - 2 possible states:
 // 1. Send to Device widget
 // 2. QR code (if widget is not available)
+// this state is also shown when JS is disabled
 
  // common styles for both states
+.no-js,
 .show-fx-mobile {
     .fx-mobile-container {
         display: block;
@@ -277,6 +255,7 @@ html[dir="rtl"] .content-header {
     }
 }
 
+.no-js .has-send-to-device,
 .has-send-to-device.show-fx-mobile {
     @media #{$mq-tablet} {
         .content-container {
@@ -289,6 +268,7 @@ html[dir="rtl"] .content-header {
     }
 }
 
+.no-js .no-send-to-device,
 .no-send-to-device.show-fx-mobile {
     @media #{$mq-tablet} {
         .content-container {

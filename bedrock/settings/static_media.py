@@ -1147,7 +1147,6 @@ PIPELINE_JS = {
         'source_filenames': (
             'js/base/mozilla-fxa-iframe.js',
             'js/base/send-to-device.js',
-            'js/base/uitour-lib.js',
             'js/firefox/whatsnew/whatsnew-60.js',
         ),
         'output_filename': 'js/firefox_whatsnew_60-bundle.js',
