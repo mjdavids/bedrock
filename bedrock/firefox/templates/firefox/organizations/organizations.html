@@ -27,12 +27,33 @@
 {% block content %}
 
 {% block main_feature %}
+<div class="pick">
+  <h1 class="large">{{ _('Find the right Firefox for you') }}</h1>
+  <div class="row">
+    <div class="col">
+      <p>
+        <strong>{{ _('Firefox Quantum for Enterprise (v60)') }}</strong><br>
+        {{ _('The new super-fast Firefox, with features for IT professionals to configure and deploy Firefox in their organization.') }}
+      </p>
+      <p><a href="{{ url('firefox.enterprise.index') }}" class="button">{{ _('Get Firefox for Enterprise') }}</a></p>
+    </div>
+    <div class="col">
+      <p>
+        <strong>{{ _('Firefox Extended Support Release (ESR 52)') }}</strong><br>
+        {{ _('An older version of Firefox that supports legacy Add-Ons and runs on Windows XP/Vista.') }}
+      </p>
+      <p><a href="{{ firefox_url('desktop', 'all', 'esr') }}" class="button button-light">{{ _('Get Firefox 52 ESR') }}</a></p>
+    </div>
+  </div>
+</div>
+<!--
 <hgroup id="main-feature" class="stacked">
   <h1>{{ _('Mozilla Firefox <span class="%s">Extended Support Release</span>')|format('large') }}</h1>
   <p class="large">{{ _('A community-led project that allows organizations to benefit from the speed, flexibility and security of Firefox while getting the support they need.') }}</p>
 </hgroup>
+-->
 {% endblock %}
-
+<!--
 <div class="container">
   <div class="main-column">
     <p>
@@ -66,7 +87,7 @@
     </div>
   </aside>
 </div>
-
+-->
 <div class="container">
   <section id="faq">
     <h2>{{ _('ESR FAQ') }}</h2>
