@@ -322,7 +322,7 @@ if (typeof Mozilla === 'undefined') {
 
     /**
      * Use the async mozUITour API of Firefox to retrieve the user's Sync/FxA info. This API
-     * is available on Firefox 35 and later. See
+     * is available on Firefox 29 and later. See
      * http://bedrock.readthedocs.org/en/latest/uitour.html for details.
      *
      * @param  {Function} callback - callback function to be executed with the Sync details
@@ -344,7 +344,9 @@ if (typeof Mozilla === 'undefined') {
             }
 
             window.clearTimeout(timer);
-            onRetrieved(event.detail.data.setup, event.detail.data.desktopDevices, event.detail.data.mobileDevices, event.detail.data.totalDevices);
+
+            // device counts are only available in Fx50+, so provide fallback values in case
+            onRetrieved(event.detail.data.setup, event.detail.data.desktopDevices || 0, event.detail.data.mobileDevices || 0, event.detail.data.totalDevices || 0);
         };
 
         var onRetrieved = function (setup, desktopDevices, mobileDevices, totalDevices) {
@@ -365,7 +367,7 @@ if (typeof Mozilla === 'undefined') {
 
         // If Firefox is old or for Android, call the fallback function immediately because the API is not implemented
         var userVer = Client._getFirefoxVersion();
-        if (parseFloat(userVer) < 35 || Client._isFirefoxAndroid()) {
+        if (parseFloat(userVer) < 29 || Client._isFirefoxAndroid()) {
             fallback();
 
             return;
